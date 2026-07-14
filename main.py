@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
+from pathlib import Path
 
 app = FastAPI(title="Bichig")
 
@@ -75,3 +76,15 @@ def transliterate_post(payload: Payload):
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/")
+def root():
+    return {
+        "service": "Mongolian Transliterator",
+        "instructions": "/skill.md",
+        "example": "/transliterate?text=Сайн байна уу",
+    }
+
+@app.get("/skill.md", response_class=PlainTextResponse)
+def skill_md():
+    return (Path(__file__).parent / "SKILL.md").read_text(encoding="utf-8")
