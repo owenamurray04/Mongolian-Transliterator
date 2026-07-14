@@ -3,7 +3,13 @@ from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
 from pathlib import Path
 
-app = FastAPI(title="Bichig")
+from fastapi.responses import JSONResponse
+
+
+class UTF8JSONResponse(JSONResponse):
+    media_type = "application/json; charset=utf-8"
+
+app = FastAPI(title="Mongolian Transliterator", default_response_class=UTF8JSONResponse)
 
 # Mongolian Cyrillic -> Latin.
 MAPPING = {
